@@ -18,18 +18,13 @@ define(['./axios', './vue', './init'],
 
 		const api = getAPI.apiForecast();
 
-		vue.component('button-counter', {s
-			: ['title'],
-			data: function () {
-				return {
-					count: 0
-				}
-			},
-			template: '<div v-on:click="count++">{{ count }}-{{title}}</div>'
-		})
-
-		new vue({
-			el: '#component'
+		vue.component('daily-forecast', {
+			props: ['description'], 
+			template: ` <div class="row">
+								<span class="col-3">
+									<div>{{description}}</div>
+								</span>
+							</div>`
 		})
 
 		new vue({
@@ -39,19 +34,7 @@ define(['./axios', './vue', './init'],
 					fct: []
 				}
 			},
-			//this needs a loop to render out the days, don't forget the outer div or ul tag
-
-			template: `<div>
-							<div class="row">
-								<div class="col-12" style="font-size: 14px;font-weight: bold;">Daily Forecast</div>
-							</div>
-							<div class="row">
-								<span class="col-3" v-for="f in fct">
-									<div>{{f.skyDescription}}</div>
-									<img v-bind:src="f.iconLink" style="height: 30px">
-								</span>
-							</div>
-						</div>`,
+			template: `<div><daily-forecast v-for="f in fct" :description="f.skyDescription"></daily-forecast></div>`,
 			mounted() {
 				axios.get(api).then(response => (
 					this.fct = response.data.dailyForecasts.forecastLocation.forecast
