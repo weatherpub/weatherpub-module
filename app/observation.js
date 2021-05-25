@@ -15,22 +15,17 @@ define(['./axios', './vue', './init', './config'],
 
 		const api = getAPI.apiObservation();
 
-		vue.component('metric_weight', {
-			props: ['obs'],
-			template: `<button>{{obs.temperature}}</button>`
-		})
-
-		const scale = {
+		var scale = {
 			fahrenheit: 'F',
 			celsius: 'C'
 		};
 
-		vue.component('change-forecast', {
+		vue.component('observation-forecast', {
 			props: ['city', 'state', 'img', 'scale', 'temp', 'desc'],
 			methods: {
 				showUp: function() {
 					console.log("hello");
-					this.scale = scale.celsius
+					scale = "C" 
 				}
 			},
 			template: `<div>
@@ -59,13 +54,7 @@ define(['./axios', './vue', './init', './config'],
 					scale: scale.fahrenheit
 				}
 			},
-			methods: {
-				ftc: function() {
-					console.log("changing to C or F");
-				}
-			},
-			template: '<change-forecast :city="loc.city" :state="loc.state" :img="obs.iconLink" :scale="scale" :temp="obs.temperature" :desc="obs.description"></change-forecast>',
-
+			template: '<observation-forecast :city="loc.city" :state="loc.state" :img="obs.iconLink" :scale="scale" :temp="obs.temperature" :desc="obs.description"></observation-forecast>',
 			mounted() {
 				axios.get(api)
 					.then(response => (
