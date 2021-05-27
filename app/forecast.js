@@ -19,12 +19,12 @@ define(['./axios', './vue', './init'],
 		const api = getAPI.apiForecast();
 
 		vue.component('daily-forecast', {
-			props: ['description'], 
-			template: ` <div class="row">
-								<span class="col-3">
-									<div>{{description}}</div>
-								</span>
-							</div>`
+			props: ['weekday', 'img', 'lowTemp', 'highTemp'], 
+			template: `<span class="col-4">
+						<div>{{weekday}}</div>
+						<div><img v-bind:src='img'></div>
+						<span>{{highTemp.slice(0,2)}}&deg;&nbsp;/&nbsp;{{lowTemp.slice(0, 2)}}&deg;</span>
+					</span>`
 		})
 
 		new vue({
@@ -34,7 +34,14 @@ define(['./axios', './vue', './init'],
 					fct: []
 				}
 			},
-			template: `<div><daily-forecast v-for="f in fct" :description="f.skyDescription"></daily-forecast></div>`,
+			template: `<div>
+							<div class="row">
+								<div class="col-12">Daily Forecast</div>
+							</div>
+							<div class="scrollmenu">
+							<daily-forecast v-for="f in fct" :weekday="f.weekday" :img="f.iconLink" :low-temp="f.lowTemperature" :high-temp="f.highTemperature"></daily-forecast>
+						</div>
+			</div>`,
 			mounted() {
 				axios.get(api).then(response => (
 					this.fct = response.data.dailyForecasts.forecastLocation.forecast

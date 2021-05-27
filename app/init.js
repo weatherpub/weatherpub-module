@@ -9,6 +9,11 @@ define(function () {
 	map_css.href = "https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css";
 	document.getElementsByTagName('head')[0].appendChild(map_css);
 
+	let horizontalScroll = document.createElement("link");
+	horizontalScroll.type = "text/css";
+	horizontalScroll.rel = "stylesheet";
+	horizontalScroll.href = "/module/css/horizontal-scroll.css";
+
 	let mapbox = document.createElement('div');
 	mapbox.id = "map";
 	mapbox.style = "height: 300px; width: 300px;";
@@ -67,6 +72,7 @@ define(function () {
 	changeFCT.id = 'chgFCT';
 
 	document.getElementsByTagName("head")[0].appendChild(map_css);
+	document.getElementsByTagName("head")[0].appendChild(horizontalScroll); //the  problem is here
 	document.getElementById('content').appendChild(wrapper);
 	document.getElementById('wrapper').appendChild(mod);
 
